@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PromptStudio 使い方（説明書・全文公開）</title>
+<meta name="description" content="日本語で話しかけるだけで画像・動画生成AI用のプロンプトを作るWindows用ツール「PromptStudio」の説明書です。購入前に全文をお読みいただけます。">
+
+<style>
+  :root{
+    --bg:#14161a; --panel:#1c1f26; --panel2:#232733; --line:#333a49;
+    --fg:#e6e9ef; --dim:#9aa3b2; --accent:#5b9dff; --accent2:#2a6fd6;
+    --ok:#4ec9a5; --warn:#e0a35c; --ng:#e07a7a;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:"Yu Gothic UI","Meiryo",system-ui,sans-serif;
+    font-size:17.5px; line-height:2.0;
+  }
+  .wrap{max-width:1020px; margin:0 auto; padding:0 24px 120px}
+
+  header.top{
+    background:linear-gradient(160deg,#2a6fd6,#1c1f26 70%);
+    padding:52px 24px 40px; margin-bottom:34px; border-bottom:1px solid var(--line);
+  }
+  header.top .inner{max-width:1020px; margin:0 auto}
+  header.top h1{margin:0 0 6px; font-size:34px; letter-spacing:.02em}
+  header.top p{margin:0; color:#d5e2f7; font-size:16px}
+
+  h2{
+    font-size:24px; margin:58px 0 16px; padding:0 0 9px;
+    border-bottom:2px solid var(--accent2);
+  }
+  h3{font-size:19px; margin:34px 0 9px; color:#cfe0ff}
+  p{margin:10px 0}
+  ul,ol{margin:10px 0; padding-left:26px}
+  li{margin:5px 0}
+  strong{color:#fff}
+  code{
+    background:var(--panel2); border:1px solid var(--line); border-radius:4px;
+    padding:2px 7px; font-family:Consolas,"Courier New",monospace; font-size:15px; color:#d8e4f5;
+  }
+  pre{
+    background:var(--panel2); border:1px solid var(--line); border-radius:8px;
+    padding:15px 18px; overflow-x:auto; font-family:Consolas,"Courier New",monospace;
+    font-size:15px; line-height:1.8; color:#d8e4f5;
+  }
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:16.5px}
+  th,td{border:1px solid var(--line); padding:10px 13px; text-align:left; vertical-align:top}
+  th{background:var(--panel2); color:#cfe0ff; white-space:nowrap}
+
+  .box{border-left:4px solid var(--accent); background:var(--panel); border-radius:0 8px 8px 0; padding:12px 18px; margin:18px 0}
+  .box.warn{border-left-color:var(--warn)}
+  .box.ng{border-left-color:var(--ng)}
+  .box.ok{border-left-color:var(--ok)}
+  .box .t{font-weight:700; margin-bottom:4px; color:#fff}
+
+  .toc{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:20px 28px; margin:28px 0}
+  .toc h2{margin:0 0 12px; border:none; font-size:19px; padding:0}
+  .toc ol{margin:0; padding-left:22px}
+  .toc a{color:var(--accent); text-decoration:none}
+  .toc a:hover{text-decoration:underline}
+
+  .step{display:flex; gap:14px; margin:16px 0; align-items:flex-start}
+  .step .n{
+    flex:none; width:28px; height:28px; border-radius:50%; background:var(--accent2);
+    color:#fff; display:grid; place-items:center; font-size:14px; font-weight:700; margin-top:2px;
+  }
+  .step .c{flex:1; min-width:0}
+  .step .c p:first-child{margin-top:2px}
+
+  kbd{
+    background:var(--panel2); border:1px solid var(--line); border-bottom-width:2px;
+    border-radius:4px; padding:1px 7px; font-size:12.5px; font-family:inherit;
+  }
+  .sec{scroll-margin-top:20px}
+  footer{color:var(--dim); font-size:13px; margin-top:60px; padding-top:20px; border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <h1>PromptStudio 使い方</h1>
+    <p>日本語で話しかけるだけで、画像・動画生成AI用のプロンプトを作るツールです。</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="box ok">
+  <div class="t">これは PromptStudio の説明書です（購入前に全文を公開しています）</div>
+  <p>ご購入後に同梱されるものと、同じ内容です。お使いのパソコンで動くか、ご自身の用途に合う道具かを、買う前に確かめてください。</p>
+  <p><strong>動作環境：</strong>Windows 10 / 11 ／ NVIDIA製グラフィックボード・VRAM 12GB以上 ／ 空き容量 10GB程度<br>
+  <strong>スマートフォン・Mac・iPad では動作しません。</strong>詳しくは「2. 動かすのに必要なもの」をご覧ください。</p>
+  <p><a href="https://airiiria.booth.pm/">→ 商品ページ（BOOTH）</a></p>
+</div>
+
+<div class="toc">
+  <h2>目次</h2>
+  <ol>
+    <li><a href="#about">このツールは何をするもの？</a></li>
+    <li><a href="#need">動かすのに必要なもの</a></li>
+    <li><a href="#setup">最初の準備</a></li>
+    <li><a href="#run">起動と終了</a></li>
+    <li><a href="#screen">画面の見方</a></li>
+    <li><a href="#first">はじめての1本を作る</a></li>
+    <li><a href="#profile">プロファイルの選び方（重要）</a></li>
+    <li><a href="#options">上部の設定項目</a></li>
+    <li><a href="#image">画像を使う</a></li>
+    <li><a href="#tools">便利な機能</a></li>
+    <li><a href="#tips">よい結果を出すコツ</a></li>
+    <li><a href="#trouble">うまくいかないとき</a></li>
+    <li><a href="#faq">よくある質問</a></li>
+    <li><a href="#disk">ディスク容量について（重要）</a></li>
+    <li><a href="#notice">注意していただきたいこと</a></li>
+  </ol>
+</div>
+
+
+<h2 id="about" class="sec">1. このツールは何をするもの？</h2>
+
+<p>画像や動画の生成AIには、<strong>「プロンプト」</strong>という指示文を英語で書いて渡す必要があります。</p>
+
+<p>ところがこのプロンプトには独特の作法があり、しかも<strong>使うモデルによって書き方がまったく違います</strong>。同じ言葉を書いても、あるモデルでは効き、別のモデルでは何の意味も持たない、ということが普通に起こります。</p>
+
+<p>PromptStudio は、<strong>日本語で「こういう絵が作りたい」と話しかけるだけで、そのモデルに合った英語のプロンプトを組み立ててくれる</strong>ツールです。</p>
+
+<div class="box ok">
+  <div class="t">たとえば、こう使います</div>
+  <p>あなた:「夕暮れの教室で、女の子が窓際からこちらを振り向く」</p>
+  <p>AI:「髪の色と服装のイメージを教えてください」と質問しつつ、右側にプロンプトを表示</p>
+  <p>あなた:「黒髪ロング、制服で」</p>
+  <p>→ 完成したプロンプトをコピーして、お使いの生成AIに貼り付けるだけです。</p>
+</div>
+
+<h3>このツールがやらないこと</h3>
+<ul>
+  <li>画像や動画そのものを作ることはできません（作るのは<strong>文章だけ</strong>です）</li>
+  <li>生成AIのモデルを配ったり、インストールしたりはしません</li>
+  <li>ComfyUI などの生成環境の準備・設定には関わりません</li>
+</ul>
+
+<p>出来上がったプロンプトを、どの環境でどう使うかは、あなたご自身で行っていただく形になります。</p>
+
+
+<h2 id="need" class="sec">2. 動かすのに必要なもの</h2>
+
+<table>
+  <tr><th>必要なもの</th><th>説明</th></tr>
+  <tr><td>Windows パソコン</td><td>Windows 10 または 11</td></tr>
+  <tr><td><strong>グラフィックボード</strong></td><td><strong>NVIDIA製・VRAM 12GB以上</strong>（下の囲みを参照）</td></tr>
+  <tr><td>Python</td><td>本体に同梱されています。別途の準備は不要です</td></tr>
+  <tr><td><strong>Ollama</strong></td><td>AIを動かすための土台となる無料ソフトです</td></tr>
+  <tr><td><strong>AIモデル</strong></td><td>約6.6GB。プロンプトを書いてくれるAIの本体です</td></tr>
+  <tr><td>空き容量</td><td>10GB程度（27bも使う場合は25GB程度）</td></tr>
+</table>
+
+<div class="box warn">
+  <div class="t">グラフィックボードは VRAM 12GB以上が必要です</div>
+  <p>AIモデルは、グラフィックボードのメモリ（VRAM）に丸ごと載せて動かします。<strong>載りきらないと、Windows があふれた分をメインメモリへ逃がすため、エラーは出ないまま十倍以上遅くなります。</strong></p>
+  <table>
+    <tr><th>VRAM</th><th>使えるモデル</th><th>快適さ</th></tr>
+    <tr><td>24GB以上</td><td>9b ＋ 27b q3_K</td><td>すべて使えます</td></tr>
+    <tr><td>16GB</td><td>9b</td><td>快適です</td></tr>
+    <tr><td><strong>12GB</strong></td><td>9b</td><td><strong>これが下限です</strong></td></tr>
+    <tr><td>8GB以下</td><td>—</td><td>非対応</td></tr>
+  </table>
+  <p><strong>8GB以下のカードや、グラフィックボードのないパソコンは対象外です。</strong>より小さいモデルも試しましたが、本ツールがAIへ渡す指示文が長いため、<strong>プロンプトを出さずに質問だけして止まってしまいます。</strong>「動くけれど使えない」状態になるため、対応外とさせていただいています。</p>
+  <p>すでに画像生成をされている方であれば、十分な性能をお持ちのはずです。</p>
+</div>
+
+<div class="box ok">
+  <div class="t">用意しているモデルは2つです</div>
+  <table>
+    <tr><th>モデル</th><th>大きさ</th><th>用途</th></tr>
+    <tr><td><strong>9b</strong></td><td>約 6.6GB</td><td><strong>普段はこちら。</strong>画像用のプロンプトは数十秒で返ってきます</td></tr>
+    <tr><td><strong>27b q3_K</strong></td><td>約 14GB</td><td>MiniMax H3 を作るとき。賢いぶん遅くなります</td></tr>
+  </table>
+  <p>この2つは、実際に動かして品質を確認したうえで選んでいます。<strong>動作を保証するのはこの2つだけです。</strong></p>
+  <p><strong>他のモデルを追加してお使いいただくこともできます。</strong>上部の「チャットモデル」に自動で並びますので、切り替えるだけです。ただし<strong>その場合の動作・品質は保証いたしかねます。</strong>詳しくは「13. よくある質問」をご覧ください。</p>
+</div>
+
+
+<h2 id="setup" class="sec">3. 最初の準備</h2>
+
+<p><strong>インストーラーからお使いいただいた場合、この章の作業はすべて完了しています。</strong>次の章へお進みください。</p>
+
+<p>手動で用意する場合、または不足しているものがある場合は、以下の手順で準備してください。</p>
+
+<div class="step"><div class="n">1</div><div class="c">
+  <p><strong>Ollama をインストールする</strong></p>
+  <p><code>ollama.com/download</code> から Windows 版をダウンロードして実行します。インストール後は画面右下（時計の近く）に常駐します。</p>
+</div></div>
+
+<div class="step"><div class="n">2</div><div class="c">
+  <p><strong>モデルの保存先を決める（任意）</strong></p>
+  <p>そのままだと C ドライブに保存されます。別の場所にしたい場合は、Windows の検索で「環境変数」を開き、ユーザー環境変数に次を追加してください。</p>
+  <pre>変数名  : OLLAMA_MODELS
+変数値  : D:\Ollama\models   ← お好きな場所を指定</pre>
+  <p>設定したら、パソコンを再起動してください。</p>
+</div></div>
+
+<div class="step"><div class="n">3</div><div class="c">
+  <p><strong>モデルをダウンロードする</strong></p>
+  <p><kbd>Windows キー</kbd> + <kbd>X</kbd> を押し、「ターミナル」を選びます。開いた画面に次を貼り付けて <kbd>Enter</kbd> を押してください。</p>
+  <pre>ollama pull huihui_ai/qwen3.5-abliterated:9b</pre>
+  <p>約6.6GB のダウンロードが始まります。回線にもよりますが10分ほどかかります。<strong>まずはこれだけで使い始められます。</strong></p>
+  <p><strong>VRAM が 24GB 以上ある場合は</strong>、MiniMax H3 用にもう1つ入れておくと便利です（約14GB）。</p>
+  <pre>ollama pull huihui_ai/Qwen3.8-abliterated:27b-q3_K</pre>
+  <p>用意しているのはこの2つです。それ以外のモデルについては「13. よくある質問」をご覧ください。</p>
+</div></div>
+
+
+<h2 id="run" class="sec">4. 起動と終了</h2>
+
+<h3>起動する</h3>
+<p><strong><code>PromptStudio</code> をダブルクリック</strong>してください。数秒後、ブラウザが自動で開きます。</p>
+<p>黒い画面などは表示されません。何も起きないように見えても、<strong>3〜4秒お待ちください</strong>。</p>
+
+<h3>終了する</h3>
+<p>画面右上の<strong>「終了」ボタン</strong>を押してください。確認のあと停止します。タブを閉じるだけでは、裏で動き続けます。</p>
+
+<div class="box warn">
+  <div class="t">「終了」を押さずに閉じてしまったら</div>
+  <p>害はありませんが、次に起動したときに動作がおかしくなることがあります。その場合は <code>_system</code> フォルダの中にある <code>stop.bat</code> をダブルクリックすると確実に停止できます。</p>
+  <p>スタートメニューの「<strong>PromptStudio を停止する</strong>」からでも同じことができます。</p>
+</div>
+
+<h3>フォルダの中身</h3>
+
+<p>インストール先を開くと、次のようになっています。<strong>普段さわるのは上の3つだけです。</strong></p>
+
+<table>
+  <tr><th>名前</th><th>中身</th></tr>
+  <tr><td><strong>PromptStudio</strong></td><td><strong>起動します。</strong>デスクトップのショートカットと同じものです</td></tr>
+  <tr><td><strong>使い方.html</strong></td><td><strong>この説明書です。</strong>ツールが起動しなくても開けます</td></tr>
+  <tr><td><strong>README.txt</strong></td><td>ご利用上の注意。ツール内の「情報」ボタンでも同じものが読めます</td></tr>
+  <tr><td><code>data</code></td><td>あなたのデータ。会話・保存プロンプト・常に追加するタグ</td></tr>
+  <tr><td><code>profiles</code></td><td>対応している生成AIの定義。上級者向け（<a href="#faq">13章</a>参照）</td></tr>
+  <tr><td><code>_system</code></td><td><strong>内部ファイルです。さわる必要はありません</strong></td></tr>
+</table>
+
+<div class="box">
+  <div class="t">引っ越し・バックアップ</div>
+  <p><code>data</code> フォルダさえコピーしておけば、会話も保存プロンプトも設定も丸ごと残ります。新しいパソコンに入れ直したときは、インストール後にこのフォルダを上書きしてください。</p>
+</div>
+
+
+<h2 id="screen" class="sec">5. 画面の見方</h2>
+
+<p>画面は大きく3つに分かれています。</p>
+
+<table>
+  <tr><th>場所</th><th>役割</th></tr>
+  <tr><td><strong>上部の帯</strong></td><td>どのモデル向けに作るか、どんな絵にするかを選びます</td></tr>
+  <tr><td><strong>左側</strong></td><td>日本語でAIと会話するところ</td></tr>
+  <tr><td><strong>右側</strong></td><td>完成したプロンプトが表示されるところ</td></tr>
+</table>
+
+<h3>右側の使い方</h3>
+<ul>
+  <li><strong>コピー</strong> … その欄の内容をコピーします。生成AIの入力欄に貼り付けてください</li>
+  <li><strong>和訳</strong> … 英語の内容を日本語で確認できます。もう一度押すと英語に戻ります。<strong>和訳のままでも、札の「×」で語を消せます</strong></li>
+  <li><strong>除外 N</strong> … あなたが消した語の数です。押すと一覧が出て、1つずつ／まとめて元に戻せます</li>
+  <li><strong>直接編集</strong> … 欄をクリックすれば、その場で書き換えられます</li>
+  <li><strong>語数の表示</strong> … 見出しの横に出ます。タグの数の目安になります</li>
+</ul>
+
+<div class="box">
+  <div class="t">手で直した内容は守られます</div>
+  <p>あなたが手で書き換えた部分を、AIが勝手に元に戻すことはありません。「そこは変えないで」と言わなくても大丈夫です。</p>
+</div>
+
+
+<h2 id="first" class="sec">6. はじめての1本を作る</h2>
+
+<div class="step"><div class="n">1</div><div class="c">
+  <p><strong>上部の「プロファイル」で、お使いのモデルの種類を選びます</strong></p>
+  <p>どれを選べばよいかは <a href="#profile">7章</a> をご覧ください。分からなければ、まずは一番上のままで構いません。</p>
+</div></div>
+
+<div class="step"><div class="n">2</div><div class="c">
+  <p><strong>左下の入力欄に、日本語で作りたいものを書きます</strong></p>
+  <pre>夕暮れの教室で、女の子が窓際からこちらを振り向く</pre>
+  <p><kbd>Enter</kbd> で送信、<kbd>Shift</kbd>+<kbd>Enter</kbd> で改行です。</p>
+</div></div>
+
+<div class="step"><div class="n">3</div><div class="c">
+  <p><strong>AIが質問してきたら、答えます</strong></p>
+  <p>「髪の色は？」「服装は？」といった質問が返ってきます。答えるほど狙いに近づきます。</p>
+  <p>質問に答えたくないときは、無視して次の指示を出しても構いません。</p>
+</div></div>
+
+<div class="step"><div class="n">4</div><div class="c">
+  <p><strong>気になるところを、そのまま日本語で伝えます</strong></p>
+  <pre>もっと夕日を強く
+髪を銀色に
+背景をぼかして</pre>
+  <p>会話を重ねるほど精度が上がります。<strong>一度で完成させようとしなくて構いません。</strong></p>
+</div></div>
+
+<div class="step"><div class="n">5</div><div class="c">
+  <p><strong>「コピー」を押して、お使いの生成AIに貼り付けます</strong></p>
+  <p>プロンプトとネガティブプロンプトは<strong>別々の欄</strong>です。それぞれの欄に貼り付けてください。</p>
+</div></div>
+
+
+<h2 id="profile" class="sec">7. プロファイルの選び方（重要）</h2>
+
+<p><strong>ここを間違えると、まったく効かないプロンプトができてしまいます。</strong>お使いのモデルに合わせて選んでください。</p>
+
+<table>
+  <tr><th>プロファイル</th><th>こんなモデルを使っているなら</th></tr>
+  <tr>
+    <td><strong>Illustrious / NoobAI 系</strong></td>
+    <td>Illustrious XL、NoobAI-XL、WAI-illustrious、Animagine、およびそれらを元にしたモデル。<strong>アニメ系で最も広く使われている系統</strong>です</td>
+  </tr>
+  <tr>
+    <td><strong>Pony Diffusion V6 XL 系</strong></td>
+    <td>Pony Diffusion V6 XL と、その派生モデル</td>
+  </tr>
+  <tr>
+    <td><strong>FLUX / Qwen-Image 系</strong></td>
+    <td>FLUX.1、FLUX.2、Qwen-Image、SD3.5、Chroma</td>
+  </tr>
+  <tr>
+    <td><strong>WAN / LTX / Hunyuan 系</strong></td>
+    <td>動画生成。WAN 2.2、LTX-2、HunyuanVideo</td>
+  </tr>
+  <tr>
+    <td><strong>MiniMax H3</strong></td>
+    <td>動画生成。MiniMax H3</td>
+  </tr>
+</table>
+
+<div class="box warn">
+  <div class="t">なぜ選び分けが必要なのか</div>
+  <p>たとえば Pony 系では <code>score_9</code> という語を先頭に置かないと画質が出ません。しかし同じ語を Illustrious 系に渡しても<strong>まったくの無意味</strong>です。</p>
+  <p>逆に Illustrious 系で使う <code>masterpiece</code> は、Pony 系では<strong>効果がありません</strong>。</p>
+  <p>見た目がよく似ているのに互換性がないため、間違えたまま使い続けている方が非常に多い部分です。プロファイルを選ぶだけで、この違いを自動で吸収します。</p>
+</div>
+
+<h3>お使いのモデルが分からないときは</h3>
+<p>モデルをダウンロードしたページに、<strong>「ベースモデル」</strong>という表記があります。そこに <code>Illustrious</code> や <code>Pony</code> と書かれているはずです。</p>
+
+
+<h2 id="options" class="sec">8. 上部の設定項目</h2>
+
+<p>設定項目は、選んだプロファイルによって変わります。<strong>各項目にマウスを乗せると説明が出ます。</strong></p>
+
+<table>
+  <tr><th>項目</th><th>内容</th></tr>
+  <tr><td><strong>プロファイル</strong></td><td>お使いの生成AIの種類。<a href="#profile">7章</a>参照</td></tr>
+  <tr><td><strong>生成モデル</strong></td><td>同じ系統の中での細かい種別。ネガティブの扱いなどが変わります</td></tr>
+  <tr><td><strong>モード</strong></td><td>文章だけで作るか、画像を使うか</td></tr>
+  <tr><td><strong>画風</strong></td><td>アニメか実写か。細かい度合いは会話でAIに伝えます</td></tr>
+  <tr><td><strong>画角</strong></td><td>全身、膝上、上半身、顔アップなど</td></tr>
+  <tr><td><strong>露出度</strong></td><td>健全／ヌードの2つ。どこまで描くかは会話で決まります</td></tr>
+  <tr><td><strong>推論</strong></td><td>「使う」は丁寧で高品質、数十秒。「使わない」は数秒だが返答が短い</td></tr>
+  <tr><td><strong>対話</strong></td><td>「じっくり相談」はAIが質問してくる。「すぐ出す」は質問せず即完成</td></tr>
+  <tr><td><strong>チャットモデル</strong></td><td>プロンプトを書くAI本体。数字が大きいほど賢く、遅い。<strong>MiniMax H3 のときは 27b q3_K をおすすめします</strong>（下の囲みを参照）</td></tr>
+  <tr><td><strong>VRAMを解放</strong></td><td>チャットAIをVRAMから降ろします。<strong>動画生成の前に押してください</strong>（下の囲みを参照）</td></tr>
+</table>
+
+<div class="box warn">
+  <div class="t">動画生成と同時に使うときは「VRAMを解放」を押してください</div>
+  <p>チャットAIは<strong>グラフィックボードのメモリ（VRAM）</strong>を使います。しかも、<strong>返答が終わってもすぐには降りません。</strong>次の質問にすぐ答えられるよう、5分間そのまま居座ります。「会話していないから空いているはず」とはなりません。</p>
+  <table>
+    <tr><th>チャットモデル</th><th>占有するVRAM</th></tr>
+    <tr><td>9b</td><td><strong>約 6〜7 GB</strong></td></tr>
+    <tr><td>27b q3_K</td><td><strong>約 17 GB</strong></td></tr>
+  </table>
+  <p>画像生成と並行する程度なら問題になりにくいのですが、<strong>動画生成はVRAMを大量に使います。</strong>チャットAIが居座ったままだと、動画側に回るVRAMが足りなくなり、極端に遅くなったり生成に失敗したりします。</p>
+  <p><strong>チャットモデルの右にある「VRAMを解放」ボタンを押してください。</strong>数秒でVRAMが返ってきます。</p>
+  <p>解放しても設定や会話は消えません。<strong>次にメッセージを送れば自動で読み込み直されます</strong>（そのときだけ数十秒かかります）。</p>
+  <p>押し忘れても、5分経てば自動で解放されます。ただし<strong>動画生成を始める前に押しておくのが確実</strong>です。</p>
+  <p>いま何が読み込まれているかは、ターミナルで <code>ollama ps</code> と打つと確認できます。</p>
+  <p>なお、<strong>「終了」ボタンを押したとき</strong>と、<strong>ブラウザのタブや窓を閉じたとき</strong>は、ボタンを押さなくても自動でVRAMが解放されます（閉じてから約8秒後）。ページを再読み込みしただけの場合は解放されないので、読み込み直しの待ち時間は発生しません。</p>
+</div>
+
+<div class="box ok">
+  <div class="t">MiniMax H3 を作るときは 27b q3_K をおすすめします</div>
+  <p>H3 のプロンプトは、時刻・話者ID・セリフ記法・音の指定が入り組んだ、かなり複雑な形式です。<strong>9b では、指定したセリフが抜け落ちることがあります。</strong></p>
+  <pre>同じ「もう行かなきゃ」という指定に対して
+  9b     … 「唇が言葉を形づくる」で終わり、セリフ記法なし → 声が出ない
+  27b q3_K … &lt;d&gt;[Japanese] もう行かなきゃ&lt;/d&gt; を正しく出力</pre>
+  <p>27b q3_K は返答までの時間が<strong>9b の数倍</strong>かかりますが、H3 は動画の生成自体に数分かかる作業なので、ここで待つ価値があります。</p>
+  <p><strong>画像を数多く作るときは 9b のままで十分です。</strong>そちらは速さが効いてきます。</p>
+</div>
+
+<div class="box warn">
+  <div class="t">27b が「返ってこない」ときは、VRAMがあふれています</div>
+  <p>27b q3_K は動かすのに<strong>約 17GB</strong>を使います。ブラウザや他のアプリもVRAMを使っているので、24GB のカードでも<strong>ぎりぎり</strong>です。</p>
+  <p>あふれたぶんは、Windows が黙ってメインメモリへ逃がします。<strong>エラーは出ません。ただ、とてつもなく遅くなります。</strong>実測では、同じ一言の返事が <strong>39秒 → 624秒</strong>（約16倍）になりました。</p>
+  <p>ツール側では、<strong>お使いのグラフィックボードの空き具合を見て、AIが一度に読める文章の量を自動で調整</strong>しています。VRAMに余裕がないパソコンでは自動的に控えめな設定になるため、この設定を意識していただく必要はありません。それでも返ってこないときは、次を試してください。</p>
+  <ul>
+    <li>ブラウザの他のタブ、画像・動画生成ツール、ゲームなどを閉じる</li>
+    <li>「VRAMを解放」を押してから、あらためて送信する</li>
+    <li>それでも重いなら 9b に戻す</li>
+  </ul>
+  <p>いまVRAMがどれだけ空いているかは、ターミナルで <code>nvidia-smi</code> と打つと確認できます。</p>
+</div>
+
+<div class="box">
+  <div class="t">「推論」と「対話」の使い分け</div>
+  <p><strong>じっくり作りたいとき</strong> … 推論「使う」＋対話「じっくり相談」</p>
+  <p><strong>数をこなしたいとき</strong> … 推論「使わない」＋対話「すぐ出す」（数秒で返ってきます）</p>
+</div>
+
+<p>設定を変えたときは、<strong>次に何か送信したときから反映されます</strong>。「10秒に伸ばして」などと一言送れば作り直してくれます。</p>
+
+
+<h2 id="image" class="sec">9. 画像を使う</h2>
+
+<h3>画像を添付する</h3>
+<p>方法は3通りあります。どれでも構いません。</p>
+<ul>
+  <li><strong>「画像」ボタン</strong>を押してファイルを選ぶ</li>
+  <li>左側のエリアに<strong>ドラッグ＆ドロップ</strong>する</li>
+  <li>入力欄で <kbd>Ctrl</kbd>+<kbd>V</kbd> を押して<strong>貼り付ける</strong></li>
+</ul>
+<p>添付すると小さな画像が並び、左上に <strong>①②③</strong> と番号が付きます。この番号が、動画生成での「1枚目・2枚目」に対応します。最大4枚までです。</p>
+
+<h3>参照画像から作る</h3>
+<p>モードを「参照画像から生成」に変えて画像を添付すると、<strong>AIがその画像を実際に見て</strong>、写っているものをプロンプトに変換します。「この雰囲気で、髪だけ銀色に」といった使い方ができます。</p>
+
+<h3>画像から既存のプロンプトを読み取る</h3>
+<p>ComfyUI や A1111、NovelAI で作った画像には、<strong>生成時のプロンプトが埋め込まれています</strong>。そうした画像を添付すると、<strong>AIを通さずに、埋め込まれていた内容がそのまま右側の欄に出ます。</strong></p>
+<pre>「scene_01.png」に埋め込まれていた A1111系 のプロンプトです。変えたいところを日本語で伝えてください。
+シード値: 3141592653</pre>
+<ul>
+  <li><strong>プロンプトとネガティブプロンプトの両方</strong>が、それぞれの欄に入ります</li>
+  <li><strong>シード値</strong>も記録されていれば別の行に表示します。同じ絵柄を再現したいときにお使いください</li>
+  <li>AIは何も考えません。<strong>読み取ったものが、読み取ったまま出ます</strong>（待ち時間もありません）</li>
+</ul>
+<p>そのあと <strong>「これの髪を銀色にして」</strong> と話しかければ、この内容を土台にAIが直してくれます。</p>
+<p>読み取れた画像には<strong>緑の「P」マーク</strong>が付き、マウスを乗せると内容を確認できます。</p>
+
+<div class="box">
+  <div class="t">ComfyUI の画像について</div>
+  <p>ComfyUI の画像では、ワークフローをたどって<strong>どちらがプロンプトでどちらがネガティブかを判別</strong>しています。特殊な組み方で判別できなかった場合は、読み取れた文章をまとめてプロンプト欄に入れ、その旨をお知らせします。</p>
+  <p>画像を2枚以上まとめて添付した場合、欄に出るのは<strong>1枚目だけ</strong>です。2枚目以降の内容は、会話の中でAIに渡されます。</p>
+</div>
+
+<div class="box">
+  <div class="t">読み取れない場合もあります</div>
+  <p>画像を加工したり、SNS に上げたものを保存し直したりすると、埋め込み情報は消えてしまいます。その場合は通常どおり、AIが画像を見て判断します。</p>
+</div>
+
+
+<h2 id="tools" class="sec">10. 便利な機能</h2>
+
+<h3>和訳 — 英語が読めなくても確認できる</h3>
+<p>出力欄の<strong>「和訳」ボタン</strong>を押すと、英語の内容が日本語で表示されます。</p>
+<pre>masterpiece ＝ 傑作
+cowboy shot ＝ 腰から上の構図
+depth of field ＝ 奥行きのぼかし</pre>
+<p>「なぜこの語が入っているのか」が分かります。もう一度押すと英語に戻ります。<strong>和訳を表示していても、コピーされるのは英語の原文</strong>ですのでご安心ください。</p>
+<p>タグ形式の欄では、和訳は1語ずつの札で表示されます。<strong>それぞれの札の「×」を押せば、和訳を見たままその語を消せます。</strong>英語に戻す必要はありません。</p>
+
+<h3>消した語は、二度と戻ってきません</h3>
+<p>あなたが手で消した語は、<strong>ツールが覚えていて、AIが次にまた書いてきても自動で取り除きます。</strong></p>
+<p>消した語がある欄には、見出しに<strong>「除外 3」のような赤いボタン</strong>が出ます。押すと、消した語が一覧で並びます。</p>
+<ul>
+  <li>各語の<strong>「×」</strong> … <strong>その語だけ</strong>を除外から外します</li>
+  <li><strong>「全部もどす」</strong> … その欄の除外を<strong>まとめて</strong>解除します</li>
+</ul>
+<p>「やっぱりあの語だけ必要だった」というときは、×で1つずつ戻してください。</p>
+
+<div class="box">
+  <div class="t">プロンプトが長くなりすぎるのを防いでいます</div>
+  <p>会話を重ねると、AIは前に書いた語をどんどん足していきがちです。語が増えるほど1語ずつの効き目は弱まるので、<strong>後から出した指示ほど通らなくなります。</strong></p>
+  <p>本ツールでは、AIに渡す過去の会話から<strong>古いプロンプトを取り除き、最新の1つだけを見せています。</strong>さらにAIには「プロンプトは毎回書き直すものであって、積み上げるものではない」と指示してあります。</p>
+  <p>それでも語が増えすぎたと感じたら、<strong>いらない語を手で消してください。</strong>一度消せば、もう戻ってきません。</p>
+</div>
+
+<h3>保存プロンプト — 作品名・キャラ名・衣装を引き出しにしまう</h3>
+<p>上部の<strong>「定型」ボタン</strong>を押し、<strong>「保存プロンプト」タブ</strong>を開きます。ここは、よく使うタグをフォルダで整理してしまっておく引き出しです。</p>
+<pre>▾ 原神
+   ▾ ニィロウ
+      ・通常衣装   nilou \(genshin impact\), blue hair, veil ...
+      ・水着       nilou \(genshin impact\), bikini, wet ...
+   ▾ 胡桃
+▾ お気に入りの構図
+   ・逆光の夕暮れ   backlighting, sunset, lens flare ...</pre>
+<p>フォルダは<strong>何段でも作れます。</strong>作品名 → キャラ名 → 衣装、という並べ方でも、「お気に入りの構図」のように自分用のまとめ方でも構いません。LoRA のトリガー語をキャラごとにしまっておく使い方が便利です。</p>
+
+<h4>作り方</h4>
+<ul>
+  <li><strong>＋ フォルダを作る</strong> … いちばん外側にフォルダを作ります</li>
+  <li><strong>＋ フォルダ</strong>（各行） … そのフォルダの中に、さらにフォルダを作ります</li>
+  <li><strong>＋ 区分け</strong>（各行） … そのフォルダの中に、区分け（衣装名・場面名など）を作ります。名前を付けると中身を書く画面が開くので、そこにタグを入れてください</li>
+</ul>
+
+<h4>使い方</h4>
+<ul>
+  <li><strong>入れる</strong> … その区分けのタグを、今のプロンプトに差し込みます。<strong>品質タグの直後（いちばん効く位置）に入り、AIが勝手に消すことはありません。</strong>すでに同じ語があれば重複しません</li>
+  <li><strong>編集</strong> … 中身と、どの欄（プロンプト／ネガティブ）に入れるかを変えられます</li>
+  <li><strong>名前 / ↑ / ×</strong> … 名前の変更、ひとつ上へ移動、削除です</li>
+  <li><strong>フォルダ名の左の ▾</strong> … 折りたたみます。数が増えてきたら使ってください</li>
+</ul>
+<p>登録した内容は <code>data\library.json</code> に保存されます。<strong>会話とは別に残るので、「新規」で会話を始め直しても消えません。</strong></p>
+
+<div class="box ok">
+  <div class="t">ここから入れたタグは、AIが消しません</div>
+  <p>「入れる」で差し込んだタグは<strong>固定</strong>されます。会話を続けてAIがプロンプトを書き直しても、<strong>毎回かならず同じ位置（品質タグの直後）に残ります。</strong></p>
+  <p>いらなくなったら、<strong>プロンプト欄から手で消してください。</strong>あなたが消したものは固定が外れ、以後は戻ってきません。「AIは消せない、あなただけが消せる」という動きです。</p>
+</div>
+
+<h3>定型 — 毎回入れるタグを登録しておく</h3>
+<p>上部の<strong>「定型」ボタン</strong>から、毎回自動で足したい語を登録できます。</p>
+<ul>
+  <li>キャラクターLoRA のトリガー語</li>
+  <li>いつも使う品質タグ</li>
+  <li>常に外したいネガティブ</li>
+</ul>
+<p>登録した語は、<strong>効きが強くなるプロンプトの前のほうに自動で差し込まれます</strong>。同じ語が重なっても自動でまとめられます。</p>
+<p>この設定は<strong>プロファイルごとに別々に保存</strong>されます。</p>
+
+<h3>履歴 — 前の案に戻す</h3>
+<p>右上の<strong>「履歴」ボタン</strong>で、その会話で作ってきたプロンプトが一覧できます。</p>
+<p>「3回目の案が良かった」というときに、<strong>「これに戻す」</strong>で呼び戻せます。戻したあと会話を続ければ、その内容が土台になります。</p>
+
+<h3>会話の保存 — 案件ごとに分けておく</h3>
+<ul>
+  <li><strong>保存</strong> … 名前を付けて残せます。日本語の名前も使えます</li>
+  <li><strong>読込</strong> … 保存した会話を呼び出します</li>
+  <li><strong>新規</strong> … まっさらな状態から始めます</li>
+</ul>
+<p>保存しなくても、<strong>閉じたときの続きは次回自動で復元されます</strong>。</p>
+
+<h3>入力欄の大きさを変える</h3>
+<p>入力欄のすぐ上にある<strong>細い横棒を上下にドラッグ</strong>すると、高さが変わります。長い文章を書くときに広げてください。ダブルクリックで元に戻ります。大きさは記憶されます。</p>
+
+
+<h2 id="tips" class="sec">11. よい結果を出すコツ</h2>
+
+<h3>一度で完成させようとしない</h3>
+<p>最初から細かく指定するより、<strong>ざっくり伝えて、あとから直していく</strong>ほうがうまくいきます。「もっと」「少なめに」といった曖昧な言い方でも通じます。</p>
+
+<h3>キャラクターの名前は伝えてよい</h3>
+<p>「◯◯というゲームの△△というキャラクターです」と伝えると、そのキャラクター名のタグを入れてくれます。画像を添付しながら伝えると、より正確になります。</p>
+<p>ただし<strong>似せるには、そのキャラクター用の LoRA が別途必要</strong>です。プロンプトだけでは限界があります。</p>
+
+<h3>プロンプトの長さには上限があります</h3>
+<p>生成AIが読み取れる量には、モデルごとに決まった上限があります。<strong>そこを超えた分は、書いても読まれません。</strong></p>
+<table>
+  <tr><th>プロファイル</th><th>読み取れる上限</th><th>ちょうどよい量</th></tr>
+  <tr><td>Illustrious / NoobAI 系</td><td>約248トークン（およそ70〜80タグ）</td><td><strong>25〜45タグ</strong></td></tr>
+  <tr><td>Pony 系</td><td>約225〜248トークン（およそ70タグ）</td><td><strong>25〜45タグ</strong>（スコアタグの後ろで）</td></tr>
+  <tr><td>FLUX / Qwen-Image 系</td><td>512トークン（およそ350語）。Qwen-Image は約1000</td><td><strong>60〜150語</strong></td></tr>
+  <tr><td>WAN / LTX / Hunyuan 系</td><td><strong>320トークン</strong>（512まで入るが、320超で画質が落ちるため）</td><td><strong>30〜80語</strong>（開始＋終了画像なら60〜120）</td></tr>
+  <tr><td>MiniMax H3</td><td>7,000文字</td><td><strong>150〜450語</strong>（このモデルだけ長文が必要）</td></tr>
+</table>
+<p>プロンプト欄の見出しに<strong>「12 語 / 約 40 トークン」</strong>のように表示されます。</p>
+
+<div class="box ok">
+  <div class="t">上限を超えた分は、自動で切られます</div>
+  <p>AIが上限を超える量を書いてきた場合、<strong>読み取られない部分を自動で取り除きます。</strong>残しても効果がなく、あるように見えてしまうためです。</p>
+  <p>切ったときは、チャット欄で<strong>何を切ったかをお知らせします。</strong>黙って消すことはありません。</p>
+  <pre>プロンプトが 248 トークンの上限を超えたため、末尾を切りました
+（このモデルはここから先を読み取れません）: extra tag 34, extra tag 35, …</pre>
+  <ul>
+    <li>切られるのは<strong>末尾から</strong>です。前にある大事なタグは残ります</li>
+    <li><strong>保存プロンプトから入れた固定タグは、品質タグの直後にあるので切られません</strong></li>
+    <li>文章形式では、文の途中ではなく<strong>文の切れ目で</strong>切ります</li>
+    <li><strong>MiniMax H3 だけは切りません。</strong>3つの欄の構造が壊れると使えなくなるためで、代わりに警告を出します</li>
+    <li>手入力で超えた場合は切りません。<strong>表示がオレンジ色になってお知らせするだけ</strong>です（打っている途中で消されると困るため）</li>
+  </ul>
+</div>
+
+<div class="box warn">
+  <div class="t">上限より大事なこと</div>
+  <p>タグは<strong>前にあるものほど強く効き、後ろにいくほど薄まります。</strong>上限に達していなくても、長くすればするほど1つあたりの効き目は弱くなります。</p>
+  <p>ですから「入るだけ詰める」のではなく、<strong>本当に必要なものを前に置く</strong>のが正解です。逆に、あなたが必要とする指定を遠慮して削る必要はありません。</p>
+</div>
+
+<h3>思ったものが出ないときは、和訳で確かめる</h3>
+<p>意図と違う絵ができたときは、<strong>まず「和訳」で中身を確認</strong>してください。「そんなつもりで言っていない語」が入っていることがよくあります。見つけたら、その場で直接消してしまうのが早いです。</p>
+
+<h3>画風の設定を活用する</h3>
+<p>実写にしたいのにアニメ調になってしまう場合、<strong>画風を「実写」にしてください</strong>。アニメ調を打ち消す語が、ネガティブに自動で追加されます。「もっと写真らしく」といった細かい度合いは、そのまま会話でAIに伝えてください。</p>
+
+
+<h2 id="trouble" class="sec">12. うまくいかないとき</h2>
+
+<h3>ダブルクリックしても何も起きない</h3>
+<ul>
+  <li>まず<strong>4〜5秒お待ちください</strong>。すぐには開きません</li>
+  <li>それでも開かない場合、<code>_system</code> フォルダの中にある <code>start.bat</code> をダブルクリックしてください。黒い画面にエラーの内容が表示されます</li>
+</ul>
+
+<h3>Ollama のサインイン画面が出た</h3>
+<p><strong>サインインは不要です。</strong>「Local」を選ぶか、そのウィンドウを閉じてください。</p>
+<p>Ollama にはアカウントでログインして使う機能もありますが、それは<strong>インターネット上のAIを使うためのもの</strong>です。本ツールはすべてお使いのパソコンの中だけで動くため、アカウントは一切必要ありません。</p>
+<div class="box warn">
+  <div class="t">インストール中にこの画面が出て止まったように見えたら</div>
+  <p>Ollama を入れた直後に、この画面が出ることがあります。<strong>「Local」を選ぶか閉じてから</strong>、インストール先の <code>_system</code> フォルダにある <code>setup_model.bat</code> をダブルクリックしてください。AIモデルのダウンロードが始まります。</p>
+  <p>ダウンロードが終わっているかどうかは、ターミナルで次のように確認できます。</p>
+  <pre>ollama list</pre>
+  <p><code>huihui_ai/qwen3.5-abliterated:9b</code> が表示されれば完了しています。</p>
+</div>
+
+<h3>「モデルなし」と表示される / AIが返事をしない</h3>
+<p>Ollama が動いていない可能性が高いです。</p>
+<ol>
+  <li>画面右下（時計の近く）に Ollama のアイコンがあるか確認してください</li>
+  <li>なければ、スタートメニューから Ollama を起動してください</li>
+  <li>それでも直らない場合は、パソコンを再起動してみてください</li>
+</ol>
+
+<h3>画面の表示が古いまま変わらない</h3>
+<p><kbd>Ctrl</kbd> + <kbd>F5</kbd> を押してください。ブラウザが古い画面を保持していることがあります。</p>
+
+<h3>AIの返事が短い / 内容が薄い</h3>
+<p>上部の<strong>「推論」が「使わない」になっていないか</strong>確認してください。「使う」にすると、時間はかかりますが返答の質が上がります。</p>
+
+<h3>返事が返ってこない</h3>
+<p>そのまま少しお待ちください。推論を使っている場合、数十秒かかることがあります。27b q3_K は数分かかることもあります。</p>
+<p>「AIから応答がありませんでした」と出た場合は、<strong>送信した内容が入力欄に戻っています</strong>のでもう一度お送りください。</p>
+<p><strong>何分待っても返ってこない場合は、VRAMがあふれている可能性が高いです。</strong>画像・動画生成ツールやゲーム、ブラウザの他のタブを閉じてからお試しください。<a href="#options">8章</a>の囲みもご覧ください。</p>
+<p>用意している2つ以外のモデルをお使いの場合は、<strong>まず 9b に戻してお試しください。</strong>小さすぎるモデルは、質問だけしてプロンプトを出さないことがあります。</p>
+
+<h3>会話がおかしくなった</h3>
+<p><strong>「新規」を押して作り直す</strong>のが最も確実です。長く続けた会話は、AIが混乱することがあります。</p>
+
+
+<h2 id="faq" class="sec">13. よくある質問</h2>
+
+<h3>Q. インターネットに接続していないと使えませんか？</h3>
+<p>いいえ。<strong>すべてお使いのパソコンの中だけで動きます。</strong>入力した内容が外部に送られることはありません。最初にモデルをダウンロードするときだけ接続が必要です。</p>
+
+<h3>Q. 作ったプロンプトは自由に使えますか？</h3>
+<p>はい。<strong>商用・非商用を問わず自由にお使いいただけます。</strong>使用料も、このツールを使ったという表記の義務もありません。</p>
+
+<h3>Q. 対応していないモデルのプロンプトは作れませんか？</h3>
+<p>近い系統のプロファイルを選べば、多くの場合そのまま使えます。プロンプトの書き方は、大きく分けると数種類しかないためです。</p>
+
+<h3>Q. 用意されている2つ以外のAIモデルを使えますか？</h3>
+<p><strong>使えます。ただし動作は保証いたしかねます。</strong></p>
+<p>ターミナルで <code>ollama pull</code> したモデルは、<strong>上部の「チャットモデル」に自動で並びます。</strong>選ぶだけで切り替わり、設定は必要ありません。より新しいモデルが出たときや、お手持ちのモデルを試したいときにお使いください。</p>
+<p>ただし、本ツールが動作を確認しているのは <strong>9b</strong> と <strong>27b q3_K</strong> の2つだけです。他のモデルでうまくいかない場合は、この2つに戻してからお試しください。</p>
+<div class="box warn">
+  <div class="t">選ぶ前に確認していただきたいこと</div>
+  <p>本ツールは、AIに対して<strong>非常に長い指示文</strong>（タグの作法・語彙・書式の決まりごと）を渡しています。そのため、次の条件を満たさないモデルでは正しく動きません。</p>
+  <ul>
+    <li><strong>画像を読めること</strong> … 参照画像モードで必要です。「vision」対応と書かれているものを選んでください</li>
+    <li><strong>小さすぎないこと</strong> … <strong>4B 以下は、プロンプトを出さずに質問だけして止まります。</strong>指示文が長すぎて「必ずプロンプトを出す」という決まりを保持できないためです</li>
+    <li><strong>制限のかかっていないもの</strong> … 通常のモデルは、露出度を「ヌード」にしても拒否することがあります</li>
+  </ul>
+  <p>お使いのモデルが何に対応しているかは、ターミナルで次のように調べられます。</p>
+  <pre>ollama show モデル名</pre>
+  <p><code>Capabilities</code> の欄に <code>vision</code> と <code>thinking</code> が両方あることをご確認ください。</p>
+</div>
+
+<h3>Q. AIはどこまで知っているのですか？</h3>
+<p>プロファイルごとに、そのモデル専用の作法を持たせてあります。主なものは次のとおりです。</p>
+<ul>
+  <li><strong>Illustrious / Pony 系</strong> … Danbooruタグの語彙。品質タグ・年代タグ（<code>newest</code> など絵柄そのものが変わるもの）・画風タグ・光・構図・効果・髪や目の描写。<strong>絵師タグの使い方と括弧のエスケープ</strong>も入っています</li>
+  <li><strong>FLUX / Qwen-Image 系</strong> … 主語→動作→画風→状況の順、光源とレンズの書き方、質感語、画像内の文字の指定方法</li>
+  <li><strong>WAN / LTX / Hunyuan 系</strong> … 系統ごとの書き分け、カメラワークの言い方、<strong>WAN公式の中国語ネガティブプロンプト</strong>、動きの書き方</li>
+  <li><strong>MiniMax H3</strong> … 公式ガイド準拠の記法。カメラの正式語彙（種類＋振幅＋速度）、カット記法、話者ID、<code>&lt;d&gt;</code>タグ、音声2欄の書き分け</li>
+</ul>
+<p>収録しているタグは<strong>実際に使われている件数を調べて選別</strong>しています。よく見かける <code>detailed eyes</code>、<code>cinematic lighting</code>、<code>god rays</code> などは<strong>実在しないため何の効果もありません。</strong>本ツールはこれらを書かず、実在する語に置き換えます。</p>
+
+<h3>Q. NSFW の内容も作れますか？</h3>
+<p>はい。<strong>制限をかけていないAIを使用しています。</strong>上部の「露出度」を「ヌード」にしてください。</p>
+<p><strong>この設定は「どこまで描くか」を決めるものではありません。</strong>性的な表現を出してよいかどうかの、単なる切り替えです。関連する分野の語彙が、まとめて使えるようになります。収録している語の内訳は、商品ページに記載しています。</p>
+<p><strong>どこまで描くかは、あなたが会話で伝えた内容だけで決まります。</strong>控えめに頼めば控えめに、はっきり指示すればそのとおりに書きます。何も言わなければ、AIは控えめにして質問してきます。表現を止めるのは「健全」のときだけです。</p>
+<p>収録している語は、実際に使われている件数を調べたうえで選んでいます。見た目がそれらしくても実在しない語はモデルに何も伝わらないため、そこを外さないようにしてあります。</p>
+
+<h3>Q. 動作が遅いのですが</h3>
+<p>チャットモデルを軽いもの（数字が小さいもの）に変えるか、「推論」を「使わない」にしてください。数秒で返ってくるようになります。</p>
+
+<h3>Q. 設定や会話はどこに保存されますか？</h3>
+<p>すべて <code>data</code> フォルダの中です。</p>
+<table>
+  <tr><th>場所</th><th>中身</th></tr>
+  <tr><td><code>data\sessions</code></td><td>保存した会話と、前回の続き</td></tr>
+  <tr><td><code>data\prefs.json</code></td><td>「常に追加するタグ」</td></tr>
+  <tr><td><code>data\library.json</code></td><td>「保存プロンプト」</td></tr>
+</table>
+<p><strong>バックアップは <code>data</code> フォルダをコピーするだけで十分です。</strong>新しい版に入れ替えるときも、このフォルダを残しておけば設定と会話は引き継がれます。</p>
+
+
+<h2 id="disk" class="sec">14. ディスク容量について（重要）</h2>
+
+<p>「知らないうちにドライブが圧迫されている」という事態を避けるため、<strong>何がどこに、どれくらいの大きさで保存されるのか</strong>をご説明します。</p>
+
+<h3>容量を使うのは AIモデルだけです</h3>
+
+<table>
+  <tr><th>対象</th><th>おおよその大きさ</th></tr>
+  <tr><td>PromptStudio 本体</td><td>約 30 MB（ごくわずかです）</td></tr>
+  <tr><td>会話の履歴</td><td><strong>数百 KB 程度</strong>。何百回会話しても増えません</td></tr>
+  <tr><td>Ollama 本体</td><td>約 2.7 GB</td></tr>
+  <tr><td><strong>AIモデル（9b）</strong></td><td><strong>約 6.6 GB</strong></td></tr>
+  <tr><td><strong>AIモデル（27b q3_K）</strong></td><td><strong>約 14 GB</strong></td></tr>
+</table>
+
+<div class="box ok">
+  <div class="t">会話を重ねても容量は増えません</div>
+  <p>会話の履歴は文字だけなので、非常に小さなものです。画像を添付した場合でも、縮小して保存するため大きくはなりません。</p>
+  <p><strong>容量を使っているのは、ほぼすべて AIモデルです。</strong>そして、モデルは最初に一度ダウンロードするだけで、あとから勝手に増えることはありません。</p>
+</div>
+
+<h3>モデルの保存場所を確認する</h3>
+
+<p>モデルは、標準では次の場所に保存されます。</p>
+<pre>C:\Users\（ユーザー名）\.ollama\models</pre>
+
+<p>この場所を変えたい場合は、<strong>環境変数 <code>OLLAMA_MODELS</code></strong> に保存したい場所を指定します。</p>
+
+<div class="box warn">
+  <div class="t">設定するタイミングにご注意ください</div>
+  <p>Ollama は<strong>起動したときに</strong>この設定を読み込みます。そのため、</p>
+  <ul>
+    <li>Ollama がすでに起動している状態で設定を変えても<strong>反映されません</strong></li>
+    <li>設定を変えたら、必ず <strong>Ollama を終了して起動し直す</strong>か、パソコンを再起動してください</li>
+  </ul>
+  <p>これを忘れると、指定した場所ではなく C ドライブに保存されてしまいます。</p>
+</div>
+
+<h3>いま、どこに保存されているか調べる</h3>
+
+<p><kbd>Windows キー</kbd> + <kbd>X</kbd> →「ターミナル」を開き、次を貼り付けてください。</p>
+<pre>explorer "$env:USERPROFILE\.ollama\models"</pre>
+<p>フォルダが開いて中身が入っていれば、C ドライブに保存されています。</p>
+
+<h3>保存場所を後から移動する</h3>
+
+<div class="step"><div class="n">1</div><div class="c">
+  <p><strong>Ollama を完全に終了します</strong></p>
+  <p>画面右下（時計の近く）の Ollama アイコンを右クリックして「Quit」を選びます。</p>
+</div></div>
+
+<div class="step"><div class="n">2</div><div class="c">
+  <p><strong>環境変数を設定します</strong></p>
+  <p>Windows の検索で「環境変数」→ ユーザー環境変数に <code>OLLAMA_MODELS</code> を追加し、移動先のフォルダを指定します。</p>
+</div></div>
+
+<div class="step"><div class="n">3</div><div class="c">
+  <p><strong>フォルダの中身を移動します</strong></p>
+  <p><code>C:\Users\（ユーザー名）\.ollama\models</code> の中身を、指定した場所へすべて移します。</p>
+</div></div>
+
+<div class="step"><div class="n">4</div><div class="c">
+  <p><strong>パソコンを再起動します</strong></p>
+  <p>再起動後、ターミナルで <code>ollama list</code> と入力し、モデルが表示されれば成功です。</p>
+</div></div>
+
+<h3>使わないモデルを削除する</h3>
+
+<p>容量を空けたいときは、使っていないモデルを削除できます。</p>
+<pre>ollama list                                        ← 一覧を表示
+ollama rm huihui_ai/Qwen3.8-abliterated:27b-q3_K   ← 削除する</pre>
+<p>削除しても、必要になれば再びダウンロードできます。<strong>MiniMax H3 を使わないのであれば、27b q3_K を消すだけで 14GB 空きます。</strong></p>
+
+
+<h2 id="notice" class="sec">15. 注意していただきたいこと</h2>
+
+<div class="box ng">
+  <div class="t">再配布・転売は禁止です</div>
+  <p>本ツールは購入者ご本人がお使いいただくためのものです。他の方へ渡すこと（無償・有償を問わず）、インターネット上への公開はご遠慮ください。</p>
+  <p>ご本人が所有する複数のパソコンでお使いいただくことは差し支えありません。</p>
+</div>
+
+<div class="box warn">
+  <div class="t">生成環境については関与しません</div>
+  <p>ComfyUI や各種モデルの入手・導入・利用は、<strong>お客様ご自身の責任</strong>において、各提供元のルールに従って行ってください。本ツールはテキストを作るだけで、それらには一切関与しません。</p>
+</div>
+
+<div class="box warn">
+  <div class="t">MiniMax H3 には利用できる地域の制限があります</div>
+  <p>MiniMax H3 のモデルは、<strong>アメリカ合衆国・欧州連合・英国・大韓民国</strong>を利用許諾の対象外としています。これらの地域にお住まいの方はご注意ください。</p>
+  <p>なお、この制限は<strong>H3 のモデルに対するもの</strong>であり、本ツール自体の利用を制限するものではありません。</p>
+</div>
+
+<div class="box">
+  <div class="t">作った画像・動画の取り扱いについて</div>
+  <p>他の方の権利（著作権・肖像権など）を侵害しないよう、ご自身でご確認ください。特に既存の作品のキャラクターを扱う場合はご注意ください。</p>
+</div>
+
+<p>詳しくは、同梱の <code>README.txt</code> をご覧ください。ツール内の「情報」ボタンからも読めます。</p>
+
+
+<footer>
+  PromptStudio 使い方 — 購入前公開版<br>
+  <a href="https://airiiria.booth.pm/">商品ページ（BOOTH）</a> ／ 制作: airiiria
+</footer>
+
+</div>
+</body>
+</html>
